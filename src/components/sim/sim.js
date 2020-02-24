@@ -29,7 +29,7 @@ export default class Sim extends Component {
                 },
                 "data": 4000,
                 "texts": 5000,
-                "minutes": 3000,
+                "minutes": 1000,
                 "contractLength": 1
             },
             {
@@ -40,7 +40,7 @@ export default class Sim extends Component {
                 },
                 "data": 5000,
                 "texts": 5000,
-                "minutes": 3000,
+                "minutes": 6000,
                 "contractLength": 1
             }
         ]
@@ -49,12 +49,20 @@ export default class Sim extends Component {
 
     handleChangeFilter = (filters) => {
         const networkId = filters.network || -1
+        const contractLengthValue = filters.contractLength || -1
+        const dataValue = filters.data || -1
+        const minute = filters.minute || -1
         let filteredSimList = [];
 
-        for(const index in this.defaultSimList) {
-            if(networkId !== -1 && this.defaultSimList[index]["network"]["id"] === networkId) {
-                filteredSimList.push(this.defaultSimList[index]);
+        for(const item of this.defaultSimList) {
+            if (item.network.id === networkId && 
+                item.contractLength === contractLengthValue 
+                && item.data >= dataValue
+                && item.minutes >= minute
+                ) {
+                    filteredSimList.push(item);
             }
+
         }
 
         this.setState({simList: filteredSimList});
@@ -98,3 +106,4 @@ export default class Sim extends Component {
         )
     }
 }
+
